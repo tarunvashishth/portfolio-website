@@ -10,7 +10,7 @@ const SocialMedia = () => (
     <a href="https://github.com/tarunvashishth" target="_blank" rel="noreferrer">
       <BsGithub />
     </a>
-    <a href="https://twitter.com/_0verThinker__" target="_blank" rel="noreferrer">
+    <a href="https://x.com/_tarun_v" target="_blank" rel="noreferrer">
       <BsTwitter />
     </a>
     <a href="https://www.instagram.com/_tarun.v/" target="_blank" rel="noreferrer">
