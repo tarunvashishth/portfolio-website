@@ -2,7 +2,9 @@ import sanityClient from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 
 export const client = sanityClient({
-  projectId: process.env.REACT_APP_SANITY_PROJECT_ID,
+  // projectId is not a secret: it appears in every request URL to the public
+  // Sanity API. Inlined so the build does not depend on an untracked .env file.
+  projectId: process.env.REACT_APP_SANITY_PROJECT_ID || 'hcbvv03q',
   dataset: 'production',
   apiVersion: '2023-02-01',
   useCdn: true,
