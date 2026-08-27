@@ -6,7 +6,8 @@ export const client = sanityClient({
   dataset: 'production',
   apiVersion: '2023-02-01',
   useCdn: true,
-  token: process.env.REACT_APP_SANITY_TOKEN,
+  // No token: the `production` dataset is public (aclMode: public) and this is a
+  // browser bundle — any token shipped here is readable by every visitor.
 });
 
 const builder = imageUrlBuilder(client);
