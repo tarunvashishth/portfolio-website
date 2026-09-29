@@ -2,7 +2,7 @@ import React from 'react';
 import { MotionConfig } from 'framer-motion';
 
 import { About, Footer, Header, MsocialMedia, Skills, Testimonial, Work } from './container';
-import { Navbar } from './components';
+import { Navbar, NavigationDots, SocialMedia } from './components';
 import './App.scss';
 
 const App = () => (
@@ -10,6 +10,9 @@ const App = () => (
   <MotionConfig reducedMotion="user">
     <div className="app">
       <Navbar />
+      {/* fixed to the viewport so they float over every section */}
+      <SocialMedia />
+      <NavigationDots />
       <Header />
       <About />
       <Work />

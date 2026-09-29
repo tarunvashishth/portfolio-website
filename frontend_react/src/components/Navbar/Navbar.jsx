@@ -3,26 +3,8 @@ import { HiMenuAlt4, HiX } from 'react-icons/hi';
 import { motion } from 'framer-motion';
 
 import { SECTIONS } from '../../constants';
+import useActiveSection from '../../hooks/useActiveSection';
 import './Navbar.scss';
-
-// Which section currently crosses the middle of the screen.
-const useActiveSection = () => {
-  const [active, setActive] = useState(SECTIONS[0]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => entry.isIntersecting && setActive(entry.target.id)),
-      { rootMargin: '-45% 0px -54% 0px' },
-    );
-    SECTIONS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
-
-  return active;
-};
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
