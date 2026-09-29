@@ -15,4 +15,5 @@ const MsocialMedia = () => (
   </div>
 );
 
-export default MotionWrap(MsocialMedia);
+// last thing on the page, so it can never scroll up past the default end point
+export default MotionWrap(MsocialMedia, '', { offset: ['start end', 'end end'] });

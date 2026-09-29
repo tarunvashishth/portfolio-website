@@ -1,6 +1,108 @@
 .app {
   background-color: var(--primary-color);
   font-family: var(--font-base);
+  // things flying in from the sides mustn't add a horizontal scrollbar;
+  // `clip` (unlike `hidden`) keeps position: sticky working
+  overflow-x: clip;
+}
+
+// ── scroll effects ──────────────────────────────────────────────
+
+.app__progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: 4px;
+
+  background: linear-gradient(90deg, var(--secondary-color), #7b2ff7 50%, #e33a7a);
+  box-shadow: 0 0 12px rgba(123, 47, 247, 0.6);
+  transform-origin: 0 50%;
+}
+
+.app__totop {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 4;
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  border-radius: 50%;
+  background-color: var(--white-color);
+  box-shadow: 0 0 20px rgba(49, 59, 172, 0.25);
+  cursor: pointer;
+
+  svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    rotate: -90deg; // ring starts filling from the top
+  }
+
+  circle {
+    fill: none;
+    stroke-width: 3;
+  }
+
+  .app__totop-track {
+    stroke: var(--lightGray-color);
+  }
+
+  .app__totop-ring {
+    stroke: var(--secondary-color);
+    stroke-linecap: round;
+  }
+
+  > svg:last-child {
+    position: static;
+    width: 20px;
+    height: 20px;
+    rotate: none;
+    color: var(--secondary-color);
+  }
+
+  @media screen and (min-width: 2000px) {
+    width: 80px;
+    height: 80px;
+
+    > svg:last-child {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}
+
+.split-text {
+  // beat `.head-text span` (accent colour) and `.app__header-badge span` (emoji size)
+  .split-line,
+  .split-word,
+  .split-char {
+    color: inherit;
+    font-size: inherit;
+  }
+
+  .split-word {
+    display: inline-block;
+    white-space: nowrap;
+    perspective: 600px;
+  }
+
+  .split-char {
+    display: inline-block;
+    transform-origin: 50% 100%;
+  }
+}
+
+.split-text--capitalize .split-char {
+  text-transform: none;
 }
 
 .app__whitebg {

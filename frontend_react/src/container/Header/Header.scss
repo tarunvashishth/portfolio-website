@@ -1,5 +1,7 @@
 #home {
     position: relative;
+    // own stacking context so the giant background text sits behind the content
+    isolation: isolate;
     background: url("../../assets/bgIMG.png");
     background-size: cover;
     background-position: center;
@@ -36,6 +38,25 @@
     }
   }
   
+  // huge outlined text that slides sideways as the hero scrolls away
+  .app__header-bgtext {
+    position: absolute;
+    left: 0;
+    bottom: 6%;
+    z-index: -1;
+
+    font-size: 16vw;
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(49, 59, 172, 0.12);
+
+    pointer-events: none;
+    user-select: none;
+  }
+
   .app__header-info {
     flex: 0.65;
     display: flex;
@@ -138,6 +159,45 @@
       font-size: 1.5rem !important;
       padding: 1.25rem 2.25rem;
     }
+  }
+
+  .app__header-scroll {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+
+    p {
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+  }
+
+  .app__header-mouse {
+    position: relative;
+    width: 22px;
+    height: 36px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 12px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      width: 4px;
+      height: 7px;
+      margin-left: -2px;
+      border-radius: 2px;
+      background-color: var(--secondary-color);
+      animation: scroll-wheel 1.6s ease-in-out infinite;
+    }
+  }
+
+  @keyframes scroll-wheel {
+    0% { translate: 0 0; opacity: 1; }
+    70% { translate: 0 12px; opacity: 0; }
+    100% { translate: 0 0; opacity: 0; }
   }
 
   @keyframes wave {
