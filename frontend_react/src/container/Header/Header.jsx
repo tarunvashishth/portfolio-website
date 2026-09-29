@@ -25,7 +25,7 @@ const Header = () => (
     >
       <div className="app__header-badge">
         <div className="badge-cmp app__flex">
-          <span>👋</span>
+          <span className="app__header-wave" role="img" aria-label="wave">👋</span>
           <div style={{ marginLeft: 20 }}>
             <p className="p-text">Hello, I am</p>
             <h1 className="head-text">Tarun</h1>
@@ -36,6 +36,11 @@ const Header = () => (
           <p className="p-text">Software Engineer</p>
           {/* <p className="p-text">Freelancer</p> */}
         </div>
+
+        <div className="app__header-cta">
+          <a href="#work" className="p-text app__header-btn">See my work</a>
+          <a href="#contact" className="p-text app__header-btn app__header-btn--light">Say hello</a>
+        </div>
       </div>
     </motion.div>
 
@@ -44,12 +49,12 @@ const Header = () => (
       transition={{ duration: 0.5, delayChildren: 0.5 }}
       className="app__header-img"
     >
-      <img src={images.profile} alt="profile_bg" />
+      <img src={images.profile} alt="Tarun" />
       <motion.img
         whileInView={{ scale: [0, 1] }}
         transition={{ duration: 1, ease: 'easeInOut' }}
         src={images.circle}
-        alt="profile_circle"
+        alt=""
         className="overlay_circle"
       />
     </motion.div>
@@ -61,7 +66,7 @@ const Header = () => (
     >
       {[images.javascript, images.react, images.css].map((circle, index) => (
         <div className="circle-cmp app__flex" key={`circle-${index}`}>
-          <img src={circle} alt="profile_bg" />
+          <img src={circle} alt="" />
         </div>
       ))}
     </motion.div>

@@ -81,6 +81,12 @@
       }
     }
   
+    .app__header-wave {
+      display: inline-block;
+      transform-origin: 70% 70%;
+      animation: wave 2.5s ease-in-out 1s infinite;
+    }
+
     span {
       font-size: 2.5rem;
   
@@ -95,6 +101,56 @@
     }
   }
   
+  .app__header-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .app__header-cta .app__header-btn {
+    padding: 0.9rem 1.6rem;
+    border-radius: 10px;
+    background-color: var(--secondary-color);
+    color: var(--white-color);
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0px 0px 20px rgba(49, 59, 172, 0.25);
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #2430af;
+      transform: translateY(-2px);
+    }
+
+    &--light {
+      background-color: var(--white-color);
+      color: var(--secondary-color);
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        background-color: var(--white-color);
+        box-shadow: 0px 0px 25px rgba(49, 59, 172, 0.2);
+      }
+    }
+
+    @media screen and (min-width: 2000px) {
+      font-size: 1.5rem !important;
+      padding: 1.25rem 2.25rem;
+    }
+  }
+
+  @keyframes wave {
+    0%, 60%, 100% { transform: rotate(0deg); }
+    10%, 30% { transform: rotate(14deg); }
+    20%, 40% { transform: rotate(-8deg); }
+  }
+
+  @keyframes bob {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -10px; }
+  }
+
   .app__header-circles {
     flex: 0.75;
     display: flex;
@@ -111,11 +167,20 @@
   
       background: var(--white-color);
       box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+      animation: bob 6s ease-in-out infinite;
   
       img {
         width: 60%;
         height: 60%;
       }
+    }
+
+    div:nth-child(2) {
+      animation-delay: -2s;
+    }
+
+    div:nth-child(3) {
+      animation-delay: -4s;
     }
   
     // circles with different height & width

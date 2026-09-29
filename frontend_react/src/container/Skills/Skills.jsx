@@ -11,7 +11,7 @@ const Skills = () => {
   const [skills, setSkills] = useState([]);
 
   useEffect(() => {
-    const query = '*[_type == "experiences"]';
+    const query = '*[_type == "experiences"] | order(year desc)';
     const skillsQuery = '*[_type == "skills"]';
 
     client.fetch(query).then((data) => {
@@ -34,13 +34,13 @@ const Skills = () => {
               whileInView={{ opacity: [0, 1] }}
               transition={{ duration: 0.5 }}
               className="app__skills-item app__flex"
-              key={skill.name}
+              key={skill._id || skill.name}
             >
               <div
                 className="app__flex"
                 style={{ backgroundColor: skill.bgColor }}
               >
-                <img src={urlFor(skill.icon)} alt={skill.name} />
+                <img src={urlFor(skill.icon).width(120).auto('format').url()} alt="" loading="lazy" />
               </div>
               <p className="p-text">{skill.name}</p>
             </motion.div>
@@ -50,40 +50,34 @@ const Skills = () => {
           {experiences.map((experience) => (
             <motion.div
               className="app__skills-exp-item"
-              key={experience.year}
+              key={experience._id || experience.year}
             >
               <div className="app__skills-exp-year">
                 <p className="bold-text">{experience.year}</p>
               </div>
               <motion.div className="app__skills-exp-works">
-                {experience.works.map((work) => (
-                  <>
-                    <motion.div
-                      whileInView={{ opacity: [0, 1] }}
-                      transition={{ duration: 0.5 }}
-                      className="app__skills-exp-work"
-                      data-tip
-                      data-for={work.name}
-                      key={work.name}
-                    >
-                      <h4 className="bold-text">{work.name}</h4>
-                      <p className="p-text">{work.company}</p>
-                    </motion.div>
-                    <Tooltip
-                      id={work.name}
-                      effect="solid"
-                      arrowColor="#fff"
-                      className="skills-tooltip"
-                    >
-                      {work.desc}
-                    </Tooltip>
-                  </>
+                {(experience.works || []).map((work) => (
+                  <motion.div
+                    whileInView={{ opacity: [0, 1] }}
+                    transition={{ duration: 0.5 }}
+                    className={`app__skills-exp-work ${work.desc ? 'has-desc' : ''}`}
+                    data-tooltip-id={work.desc ? 'skills-tooltip' : undefined}
+                    data-tooltip-content={work.desc}
+                    tabIndex={work.desc ? 0 : undefined}
+                    key={work._key || `${work.name}-${work.company}`}
+                  >
+                    <h4 className="bold-text">{work.name}</h4>
+                    <p className="p-text">{work.company}</p>
+                  </motion.div>
                 ))}
               </motion.div>
             </motion.div>
           ))}
         </div>
       </div>
+
+      {/* One tooltip shared by every role; its text comes from data-tooltip-content. */}
+      <Tooltip id="skills-tooltip" className="skills-tooltip" />
     </>
   );
 };

@@ -52,8 +52,11 @@
         height: 50%;
       }
   
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
       &:hover {
-        box-shadow: 0 0 25px #fef4f5;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+        transform: translateY(-4px);
       }
   
       @media screen and (min-width: 2000px) {
@@ -111,7 +114,22 @@
       justify-content: flex-start;
       align-items: flex-start;
       margin-bottom: 1rem;
-      cursor: pointer;
+      cursor: default;
+      border-radius: 5px;
+
+      // roles with a description show it in a tooltip — hint that there's more
+      &.has-desc {
+        cursor: help;
+
+        h4 {
+          text-decoration: underline dotted var(--gray-color);
+          text-underline-offset: 4px;
+        }
+
+        &:hover h4 {
+          color: var(--secondary-color);
+        }
+      }
   
       h4 {
         font-weight: 500;

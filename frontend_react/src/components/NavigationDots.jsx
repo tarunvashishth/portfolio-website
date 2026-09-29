@@ -1,19 +1,22 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable jsx-a11y/anchor-has-content */ // dots are labelled via aria-label
 
 import React from 'react';
 
+import { SECTIONS } from '../constants';
+
 const NavigationDots = ({ active }) => (
-  <div className="app__navigation">
-    {['home', 'about', 'work', 'skills', 'testimonial', 'contact'].map((item, index) => (
+  <nav className="app__navigation" aria-label="Section navigation">
+    {SECTIONS.map((item) => (
       <a
         href={`#${item}`}
-        key={item + index}
-        className="app__navigation-dot"
-        style={active === item ? { backgroundColor: '#313BAC' } : {}}
+        key={item}
+        className={`app__navigation-dot ${active === item ? 'app__navigation-dot--active' : ''}`}
+        aria-label={item}
+        aria-current={active === item ? 'true' : undefined}
+        data-label={item}
       />
     ))}
-  </div>
+  </nav>
 );
 
 export default NavigationDots;

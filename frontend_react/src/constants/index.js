@@ -1,3 +1,6 @@
 import images from './images';
+import socials from './socials';
 
-export { images };
+export const SECTIONS = ['home', 'about', 'work', 'skills', 'contact'];
+
+export { images, socials };

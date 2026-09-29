@@ -16,5 +16,34 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+html {
   scroll-behavior: smooth;
+  /* anchors land below the fixed navbar instead of under it */
+  scroll-padding-top: 4.5rem;
+}
+
+::selection {
+  background-color: var(--secondary-color);
+  color: var(--white-color);
+}
+
+:focus-visible {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

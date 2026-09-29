@@ -30,6 +30,7 @@
       background-color: #fef4f5;
   
       transition: all 0.3s ease-in-out;
+      text-decoration: none;
   
       img {
         width: 40px;
@@ -46,6 +47,7 @@
       }
       &:hover {
         box-shadow: 0 0 25px #fef4f5;
+        transform: translateY(-3px);
       }
   
       @media screen and (max-width: 450px) {
@@ -121,10 +123,26 @@
       &:hover {
         background-color: #2430af;
       }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: progress;
+      }
     }
   
     @media screen and (max-width: 768px) {
       width: 100%;
       margin: 1rem 0;
     }
+  }
+
+  .app__footer-error {
+    width: 100%;
+    color: #d0344f;
+    text-align: center;
+  }
+
+  .app__footer-note {
+    margin-top: 1rem;
+    text-align: center;
   }
