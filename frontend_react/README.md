@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+# Portfolio — frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React (Create React App) + Framer Motion, with content served from the Sanity
+studio in `../backend_sanity`.
 
-## Available Scripts
+## Scripts
 
-In the project directory, you can run:
+```bash
+npm install
+npm start       # dev server on http://localhost:3000
+npm run build   # production build in ./build
+```
 
-### `npm start`
+## Environment
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Copy `.env.example` to `.env` if you need to override anything:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+| Variable | Purpose |
+| --- | --- |
+| `REACT_APP_SANITY_PROJECT_ID` | Sanity project to read from (defaults to the public `hcbvv03q` dataset). |
+| `REACT_APP_CONTACT_FORM_ENDPOINT` | Optional form backend (e.g. Formspree) that accepts a JSON `POST` of `{ name, email, message }`. When unset, the contact form opens the visitor's email app with the message pre-filled. |
 
-### `npm test`
+## Editing content
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Personal details, copy, socials and nav** — `src/constants/profile.js`.
+- **About cards, projects, skills and experience** — managed in Sanity
+  (`abouts`, `works`, `skills`, `experiences`). Project tags `AI App` and
+  `Web App` drive the filters on the Work section.
 
-### `npm run build`
+## What's in here
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `src/components/` — shared UI: navbar, ⌘K command palette, cursor follower,
+  neural-network hero canvas, scroll-velocity marquee, section headings,
+  toaster, etc.
+- `src/container/` — page sections (Header, About, Work, Skills, Contact,
+  SiteFooter, and a Testimonial section that is currently not rendered).
+- `src/hooks/` — theme provider (dark/light with a View Transition reveal),
+  cached Sanity queries, active-section tracking, media queries.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Motion respects `prefers-reduced-motion`, and the theme follows the OS until
+the visitor picks one.

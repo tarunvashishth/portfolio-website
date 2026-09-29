@@ -1,157 +1,200 @@
-.app__skills {
+.skills__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  // keep the toolkit in view while the (longer) timeline scrolls past
+  @media (min-width: 901px) {
+    > .skills__col:first-child {
+      position: sticky;
+      top: 6.5rem;
+    }
+  }
+}
+
+.skills__subhead {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-subtle);
+  font-weight: 400;
+
+  &::after {
+    content: '';
     flex: 1;
-    width: 100%;
-    flex-direction: column;
+    height: 1px;
+    background: var(--border);
   }
-  
-  .app__skills-container {
-    width: 80%;
-    margin-top: 3rem;
-  
-    display: flex;
-    flex-direction: row;
-  
-    @media screen and (max-width: 900px) {
-      width: 100%;
-      flex-direction: column;
-    }
-  }
-  
-  .app__skills-list {
-    flex: 1;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-  
-    margin-right: 5rem;
-  
-    @media screen and (max-width: 900px) {
-      margin-right: 0;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-  
-  .app__skills-item {
-    flex-direction: column;
-    text-align: center;
-  
-    margin: 1rem;
-  
-    transition: all 0.3s ease-in-out;
-  
-    div {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background-color: #fef4f5;
-  
-      img {
-        width: 50%;
-        height: 50%;
-      }
-  
-      &:hover {
-        box-shadow: 0 0 25px #fef4f5;
-      }
-  
-      @media screen and (min-width: 2000px) {
-        width: 150px;
-        height: 150px;
-      }
-  
-      @media screen and (max-width: 450px) {
-        width: 70px;
-        height: 70px;
-      }
-    }
-  
-    p {
-      font-weight: 500;
-      margin-top: 0.5rem;
-    }
-  
-    @media screen and (min-width: 2000px) {
-      margin: 1rem 2rem;
-  
-      p {
-        margin-top: 1rem;
+}
+
+// ---------- Toolkit ----------
+
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.25rem, 1fr));
+  gap: 0.75rem;
+  list-style: none;
+}
+
+.skills__skeleton {
+  height: 8.5rem;
+  border-radius: var(--radius);
+}
+
+.skill {
+  --skill-bg: var(--surface-solid);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.25rem 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: center;
+  transition: border-color 0.4s, background-color 0.4s, transform 0.5s var(--ease-out);
+
+  &:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-hover);
+    transform: translateY(-4px);
+
+    .skill__icon {
+      transform: rotate(-8deg) scale(1.08);
+
+      &::after {
+        opacity: 0.75;
       }
     }
   }
-  
-  .app__skills-exp {
-    flex: 1;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: column;
-  
-    @media screen and (max-width: 900px) {
-      margin-top: 2rem;
-    }
+}
+
+.skill__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 18px;
+  background: var(--skill-bg);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.5s var(--ease-out);
+
+  // glow tinted by the skill colour from the CMS
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 10%;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--skill-bg);
+    filter: blur(18px);
+    opacity: 0;
+    transition: opacity 0.4s;
   }
-  
-  .app__skills-exp-item {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin: 1rem 0;
+
+  img {
+    width: 58%;
+    height: 58%;
+    object-fit: contain;
   }
-  
-  .app__skills-exp-works {
-    flex: 1;
-  
-    .app__skills-exp-work {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-      cursor: pointer;
-  
-      h4 {
-        font-weight: 500;
-      }
-  
-      p {
-        font-weight: 400;
-        color: var(--gray-color);
-        margin-top: 5px;
-      }
-    }
+}
+
+.skill__name {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+// ---------- Timeline ----------
+
+.timeline {
+  position: relative;
+  padding-left: 2.25rem;
+}
+
+.timeline__track {
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0;
+  left: 0.45rem;
+  width: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--border);
+}
+
+.timeline__fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(var(--accent), #5ad6ff, #ff7ab8);
+  transform-origin: top;
+}
+
+.timeline__skeleton {
+  height: 9rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+}
+
+.timeline__group {
+  position: relative;
+
+  & + & {
+    margin-top: 2.5rem;
   }
-  
-  .app__skills-exp-year {
-    margin-right: 3rem;
-  
-    p {
-      font-weight: 800;
-      color: var(--secondary-color);
-    }
-  
-    @media screen and (max-width: 450px) {
-      margin-right: 1rem;
-    }
+}
+
+.timeline__dot {
+  position: absolute;
+  top: 0.35rem;
+  left: calc(-2.25rem + 0.05rem);
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 3px solid var(--bg);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 18px rgba(var(--accent-rgb), 0.7);
+}
+
+.timeline__year {
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.timeline__item {
+  padding: 1.3rem 1.4rem;
+
+  & + & {
+    margin-top: 0.75rem;
   }
-  
-  .skills-tooltip {
-    max-width: 300px !important;
-    background-color: var(--white-color) !important;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1) !important;
-    border-radius: 5px !important;
-    padding: 1rem !important;
-    color: var(--gray-color) !important;
-    text-align: center !important;
-    line-height: 1.5 !important;
-    opacity: 1 !important;
-  
-    @media screen and (min-width: 2000px) {
-      font-size: 1.75rem !important;
-      max-width: 500px !important;
-      line-height: 2 !important;
-    }
-  }
+}
+
+.timeline__role {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.timeline__company {
+  margin-top: 0.3rem;
+  color: var(--accent);
+}
+
+.timeline__desc {
+  margin-top: 0.7rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}

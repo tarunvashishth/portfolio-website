@@ -1,77 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
-import { AppWrap, MotionWrap } from '../../wrapper';
-import { urlFor, client } from '../../client';
+import { SectionHeading } from '../../components';
+import { BRANDS_QUERY, TESTIMONIALS_QUERY } from '../../constants';
+import { useSanityQuery } from '../../hooks';
+import { imageUrl } from '../../utils';
 import './Testimonial.scss';
 
+// Not rendered at the moment (see App.js) — kept ready for when there are
+// testimonials in Sanity.
 const Testimonial = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [testimonials, setTestimonials] = useState([]);
-  const [brands, setBrands] = useState([]);
+  const { data: testimonials } = useSanityQuery(TESTIMONIALS_QUERY);
+  const { data: brands } = useSanityQuery(BRANDS_QUERY);
+  const [index, setIndex] = useState(0);
 
-  const handleClick = (index) => {
-    setCurrentIndex(index);
-  };
-
-  useEffect(() => {
-    const query = '*[_type == "testimonials"]';
-    const brandsQuery = '*[_type == "brands"]';
-
-    client.fetch(query).then((data) => {
-      setTestimonials(data);
-    });
-
-    client.fetch(brandsQuery).then((data) => {
-      setBrands(data);
-    });
-  }, []);
+  if (!testimonials?.length && !brands?.length) return null;
+  const current = testimonials?.[index];
+  const step = (n) => setIndex((i) => (i + n + testimonials.length) % testimonials.length);
 
   return (
-    <>
-      {testimonials.length && (
-        <>
-          <div className="app__testimonial-item app__flex">
-            <img src={urlFor(testimonials[currentIndex].imgurl)} alt={testimonials[currentIndex].name} />
-            <div className="app__testimonial-content">
-              <p className="p-text">{testimonials[currentIndex].feedback}</p>
-              <div>
-                <h4 className="bold-text">{testimonials[currentIndex].name}</h4>
-                <h5 className="p-text">{testimonials[currentIndex].company}</h5>
+    <section id="testimonial" className="section testimonial">
+      <div className="container">
+        <SectionHeading index="—" label="Kind words" title="What people *say*" />
+
+        {current && (
+          <div className="testimonial__card card">
+            <AnimatePresence mode="wait">
+              <motion.figure
+                key={index}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.35 }}
+              >
+                <blockquote>“{current.feedback}”</blockquote>
+                <figcaption>
+                  {current.imgurl && <img src={imageUrl(current.imgurl, 160)} alt="" />}
+                  <span>
+                    <strong>{current.name}</strong>
+                    <small>{current.company}</small>
+                  </span>
+                </figcaption>
+              </motion.figure>
+            </AnimatePresence>
+            {testimonials.length > 1 && (
+              <div className="testimonial__controls">
+                <button type="button" className="icon-btn" onClick={() => step(-1)} aria-label="Previous testimonial"><FiArrowLeft /></button>
+                <button type="button" className="icon-btn" onClick={() => step(1)} aria-label="Next testimonial"><FiArrowRight /></button>
               </div>
-            </div>
+            )}
           </div>
+        )}
 
-          <div className="app__testimonial-btns app__flex">
-            <div className="app__flex" onClick={() => handleClick(currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1)}>
-              <HiChevronLeft />
-            </div>
-
-            <div className="app__flex" onClick={() => handleClick(currentIndex === testimonials.length - 1 ? 0 : currentIndex + 1)}>
-              <HiChevronRight />
-            </div>
-          </div>
-        </>
-      )}
-
-      <div className="app__testimonial-brands app__flex">
-        {brands.map((brand) => (
-          <motion.div
-            whileInView={{ opacity: [0, 1] }}
-            transition={{ duration: 0.5, type: 'tween' }}
-            key={brand._id}
-          >
-            <img src={urlFor(brand.imgUrl)} alt={brand.name} />
-          </motion.div>
-        ))}
+        {brands?.length > 0 && (
+          <ul className="testimonial__brands">
+            {brands.map((brand) => (
+              <li key={brand._id}>
+                <img src={imageUrl(brand.imgUrl, 300)} alt={brand.name} loading="lazy" />
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-    </>
+    </section>
   );
 };
 
-export default AppWrap(
-  MotionWrap(Testimonial, 'app__testimonial'),
-  'testimonial',
-  'app__primarybg',
-);
+export default Testimonial;

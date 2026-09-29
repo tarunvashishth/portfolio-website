@@ -1,20 +1,42 @@
 import React from 'react';
+import { MotionConfig } from 'framer-motion';
 
-import { About, Footer, Header, MsocialMedia, Skills, Testimonial, Work } from './container';
-import { Navbar } from './components';
-import './App.scss';
+import { About, Contact, Header, Skills, SiteFooter, Work } from './container';
+import {
+  CommandPalette,
+  Cursor,
+  Marquee,
+  Navbar,
+  ScrollProgress,
+  SocialRail,
+  Toaster,
+} from './components';
+import { ThemeProvider } from './hooks';
 
 const App = () => (
-  <div className="app">
-    <Navbar />
-    <Header />
-    <About />
-    <Work />
-    <Skills />
-    {/* <Testimonial /> */}
-    <Footer />
-    <MsocialMedia />
-  </div>
+  <ThemeProvider>
+    <MotionConfig reducedMotion="user">
+      <a href="#main" className="skip-link">Skip to content</a>
+      <ScrollProgress />
+      <Navbar />
+      <SocialRail />
+
+      <main id="main">
+        <Header />
+        <Marquee />
+        <About />
+        <Work />
+        <Skills />
+        {/* <Testimonial /> — re-enable once there are testimonials in Sanity */}
+        <Contact />
+      </main>
+
+      <SiteFooter />
+      <CommandPalette />
+      <Toaster />
+      <Cursor />
+    </MotionConfig>
+  </ThemeProvider>
 );
 
 export default App;
