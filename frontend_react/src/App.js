@@ -1,42 +1,24 @@
 import React from 'react';
 import { MotionConfig } from 'framer-motion';
 
-import { About, Contact, Header, Skills, SiteFooter, Work } from './container';
-import {
-  CommandPalette,
-  Cursor,
-  Marquee,
-  Navbar,
-  ScrollProgress,
-  SocialRail,
-  Toaster,
-} from './components';
-import { ThemeProvider } from './hooks';
+import { About, Footer, Header, MsocialMedia, Skills, Testimonial, Work } from './container';
+import { Navbar } from './components';
+import './App.scss';
 
 const App = () => (
-  <ThemeProvider>
-    <MotionConfig reducedMotion="user">
-      <a href="#main" className="skip-link">Skip to content</a>
-      <ScrollProgress />
+  // honour the OS "reduce motion" setting for every framer-motion animation
+  <MotionConfig reducedMotion="user">
+    <div className="app">
       <Navbar />
-      <SocialRail />
-
-      <main id="main">
-        <Header />
-        <Marquee />
-        <About />
-        <Work />
-        <Skills />
-        {/* <Testimonial /> — re-enable once there are testimonials in Sanity */}
-        <Contact />
-      </main>
-
-      <SiteFooter />
-      <CommandPalette />
-      <Toaster />
-      <Cursor />
-    </MotionConfig>
-  </ThemeProvider>
+      <Header />
+      <About />
+      <Work />
+      <Skills />
+      {/* <Testimonial /> */}
+      <Footer />
+      <MsocialMedia />
+    </div>
+  </MotionConfig>
 );
 
 export default App;

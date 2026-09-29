@@ -1,94 +1,89 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Tooltip } from 'react-tooltip';
 
-import { SectionHeading, Spotlight, revealProps } from '../../components';
-import { EXPERIENCES_QUERY, SKILLS_QUERY } from '../../constants';
-import { useSanityQuery } from '../../hooks';
-import { imageUrl } from '../../utils';
+import { AppWrap, MotionWrap } from '../../wrapper';
+import { urlFor, client } from '../../client';
 import './Skills.scss';
 
-const Toolkit = () => {
-  const { data: skills, loading } = useSanityQuery(SKILLS_QUERY);
+const Skills = () => {
+  const [experiences, setExperiences] = useState([]);
+  const [skills, setSkills] = useState([]);
+
+  useEffect(() => {
+    const query = '*[_type == "experiences"] | order(year desc)';
+    const skillsQuery = '*[_type == "skills"]';
+
+    client.fetch(query).then((data) => {
+      setExperiences(data);
+    });
+
+    client.fetch(skillsQuery).then((data) => {
+      setSkills(data);
+    });
+  }, []);
 
   return (
-    <div className="skills__col">
-      <h3 className="skills__subhead mono">Toolkit</h3>
-      <ul className="skills__grid">
-        {loading && Array.from({ length: 8 }, (_, i) => <li key={i} className="skeleton skills__skeleton" />)}
-        {skills?.map((skill, i) => (
-          <motion.li
-            key={skill._id || skill.name}
-            className="skill"
-            style={skill.bgColor ? { '--skill-bg': skill.bgColor } : undefined}
-            {...revealProps(i * 0.03, 16)}
-          >
-            <span className="skill__icon">
-              {skill.icon && <img src={imageUrl(skill.icon, 128)} alt="" loading="lazy" />}
-            </span>
-            <span className="skill__name">{skill.name}</span>
-          </motion.li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+    <>
+      <h2 className="head-text">Skills & Experiences</h2>
 
-const Timeline = () => {
-  const { data: experiences, loading } = useSanityQuery(EXPERIENCES_QUERY);
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 75%', 'end 55%'] });
-  const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
-
-  return (
-    <div className="skills__col">
-      <h3 className="skills__subhead mono">Experience</h3>
-      <div className="timeline" ref={ref}>
-        <div className="timeline__track" aria-hidden="true">
-          <motion.div className="timeline__fill" style={{ scaleY }} />
-        </div>
-
-        {loading && [0, 1].map((i) => <div key={i} className="skeleton timeline__skeleton" />)}
-
-        {experiences?.map((experience) => (
-          <div className="timeline__group" key={experience._id || experience.year}>
-            <motion.span
-              className="timeline__dot"
-              aria-hidden="true"
-              initial={{ scale: 0.4 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ margin: '0px 0px -45% 0px' }}
-              transition={{ type: 'spring', stiffness: 400, damping: 14 }}
-            />
-            <p className="timeline__year">{experience.year}</p>
-            {(experience.works || []).map((work, i) => (
-              <Spotlight
-                as={motion.article}
-                className="timeline__item"
-                key={work._key || `${work.name}-${work.company}`}
-                {...revealProps(i * 0.1, 24)}
+      <div className="app__skills-container">
+        <motion.div className="app__skills-list">
+          {skills.map((skill) => (
+            <motion.div
+              whileInView={{ opacity: [0, 1] }}
+              transition={{ duration: 0.5 }}
+              className="app__skills-item app__flex"
+              key={skill._id || skill.name}
+            >
+              <div
+                className="app__flex"
+                style={{ backgroundColor: skill.bgColor }}
               >
-                <h4 className="timeline__role">{work.name}</h4>
-                {work.company && <p className="timeline__company mono">{work.company}</p>}
-                {work.desc && <p className="timeline__desc">{work.desc}</p>}
-              </Spotlight>
-            ))}
-          </div>
-        ))}
+                <img src={urlFor(skill.icon).width(120).auto('format').url()} alt="" loading="lazy" />
+              </div>
+              <p className="p-text">{skill.name}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+        <div className="app__skills-exp">
+          {experiences.map((experience) => (
+            <motion.div
+              className="app__skills-exp-item"
+              key={experience._id || experience.year}
+            >
+              <div className="app__skills-exp-year">
+                <p className="bold-text">{experience.year}</p>
+              </div>
+              <motion.div className="app__skills-exp-works">
+                {(experience.works || []).map((work) => (
+                  <motion.div
+                    whileInView={{ opacity: [0, 1] }}
+                    transition={{ duration: 0.5 }}
+                    className={`app__skills-exp-work ${work.desc ? 'has-desc' : ''}`}
+                    data-tooltip-id={work.desc ? 'skills-tooltip' : undefined}
+                    data-tooltip-content={work.desc}
+                    tabIndex={work.desc ? 0 : undefined}
+                    key={work._key || `${work.name}-${work.company}`}
+                  >
+                    <h4 className="bold-text">{work.name}</h4>
+                    <p className="p-text">{work.company}</p>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </div>
+
+      {/* One tooltip shared by every role; its text comes from data-tooltip-content. */}
+      <Tooltip id="skills-tooltip" className="skills-tooltip" />
+    </>
   );
 };
 
-const Skills = () => (
-  <section id="skills" className="section skills">
-    <div className="container">
-      <SectionHeading index="03" label="Skills & Experience" title="The *toolkit* and the *journey*" />
-      <div className="skills__layout">
-        <Toolkit />
-        <Timeline />
-      </div>
-    </div>
-  </section>
+export default AppWrap(
+  MotionWrap(Skills, 'app__skills'),
+  'skills',
+  'app__whitebg',
 );
-
-export default Skills;

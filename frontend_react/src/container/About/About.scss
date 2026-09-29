@@ -1,236 +1,38 @@
-.about__bento {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1rem;
-}
-
-.about__intro,
-.about__clock,
-.about__connect {
-  padding: clamp(1.5rem, 3vw, 2.25rem);
-  overflow: hidden;
-}
-
-.about__eyebrow {
-  margin-bottom: 1.25rem;
-  color: var(--text-subtle);
-}
-
-.about__lead {
-  font-size: clamp(1.35rem, 2.3vw, 1.85rem);
-  font-weight: 550;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  text-wrap: pretty;
-}
-
-.about__text {
-  margin-top: 1.1rem;
-  max-width: 38rem;
-  color: var(--text-muted);
-  font-size: 1.05rem;
-}
-
-// ---------- Clock ----------
-
-.about__clock {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 15rem;
-}
-
-.about__time {
-  font-size: clamp(3rem, 5.2vw, 4.4rem);
-  font-weight: 650;
-  line-height: 1;
-  letter-spacing: -0.04em;
-}
-
-.about__meta {
-  margin-top: 0.6rem;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-.about__radar {
-  position: absolute;
-  top: 1.6rem;
-  right: 1.6rem;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  background: var(--live);
-  box-shadow: 0 0 20px rgba(var(--live-rgb), 0.8);
-
-  span {
-    position: absolute;
-    inset: 0;
-    border: 1px solid rgba(var(--live-rgb), 0.6);
-    border-radius: 50%;
-    animation: radar 3s var(--ease-out) infinite;
-
-    &:nth-child(2) {
-      animation-delay: 1s;
-    }
-
-    &:nth-child(3) {
-      animation-delay: 2s;
-    }
-  }
-}
-
-@keyframes radar {
-  from {
-    transform: scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: scale(7);
-    opacity: 0;
-  }
-}
-
-// ---------- Connect ----------
-
-.about__connect ul {
-  list-style: none;
-}
-
-.about__connect li + li {
-  border-top: 1px solid var(--border);
-}
-
-.about__connect a {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.7rem 0;
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color 0.3s, padding 0.4s var(--ease-out);
-
-  svg {
-    flex: none;
-    width: 1.05rem;
-    height: 1.05rem;
-  }
-
-  span {
+.app__about {
     flex: 1;
-  }
-
-  &:hover {
-    padding-left: 0.4rem;
-    color: var(--text);
-
-    .about__connect-arrow {
-      opacity: 1;
-      transform: none;
-      color: var(--accent);
-    }
-  }
-}
-
-.about__connect-arrow {
-  opacity: 0;
-  transform: translate(-6px, 6px);
-  transition: opacity 0.3s, transform 0.4s var(--ease-out);
-}
-
-// ---------- Cards from Sanity ----------
-
-.about__cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.about__skeleton {
-  height: 22rem;
-  border-radius: var(--radius);
-}
-
-.about__card {
-  --rx: 0deg;
-  --ry: 0deg;
-  perspective: 900px;
-  background: transparent;
-  border-color: transparent;
-
-  &::before,
-  &::after {
-    z-index: 2;
-  }
-}
-
-.about__card-inner {
-  height: 100%;
-  padding: 0.75rem 0.75rem 1.5rem;
-  border: 1px solid var(--border);
-  border-radius: inherit;
-  background: var(--surface);
-  transform: rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform 0.4s var(--ease-out), background-color 0.4s;
-
-  .about__card:hover & {
-    background: var(--surface-hover);
-  }
-
-  h3 {
-    padding-inline: 0.5rem;
-    font-size: 1.3rem;
-    font-weight: 650;
-    letter-spacing: -0.02em;
-  }
-
-  p {
-    margin-top: 0.4rem;
-    padding-inline: 0.5rem;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-  }
-}
-
-.about__card-media {
-  aspect-ratio: 4 / 3;
-  margin-bottom: 1.25rem;
-  overflow: hidden;
-  border-radius: 14px;
-  background: var(--surface-hover);
-
-  img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s var(--ease-out);
-
-    .about__card:hover & {
-      transform: scale(1.06);
+    flex-direction: column;
+  }
+  
+  .app__profiles {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  
+  .app__profile-item {
+    width: 190px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    margin: 2rem;
+  
+    img {
+      width: 100%;
+      height: 170px;
+      border-radius: 15px;
+      object-fit: cover;
+    }
+  
+    @media screen and (min-width: 2000px) {
+      width: 370px;
+      margin: 2rem 4rem;
+  
+      img {
+        height: 320px;
+      }
     }
   }
-}
-
-.about__card-index {
-  display: block;
-  margin-bottom: 0.4rem;
-  padding-inline: 0.5rem;
-  color: var(--accent);
-}
-
-@media (max-width: 1024px) {
-  .about__bento {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .about__intro {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 600px) {
-  .about__bento {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
