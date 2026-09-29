@@ -1,0 +1,70 @@
+.app__marquee {
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @media screen and (max-width: 450px) {
+    padding: 3rem 0;
+  }
+}
+
+.app__marquee-band {
+  // wider than the screen so the tilted ends never show
+  width: 130%;
+  margin-left: -15%;
+  padding: 1.1rem 0;
+
+  box-shadow: 0 10px 40px rgba(31, 38, 135, 0.25);
+
+  &--dark {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(90deg, #313bac, #7b2ff7 50%, #e33a7a);
+    color: var(--white-color);
+  }
+
+  &--light {
+    margin-top: -3.5rem;
+    background-color: var(--white-color);
+    color: var(--secondary-color);
+
+    .app__marquee-track span {
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--secondary-color);
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    padding: 0.7rem 0;
+
+    &--light {
+      margin-top: -2rem;
+    }
+  }
+}
+
+.app__marquee-row {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.app__marquee-track {
+  display: flex;
+  width: max-content;
+
+  span {
+    display: block;
+    padding-right: 0.5em;
+
+    font-family: var(--font-base);
+    font-size: clamp(2rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+}

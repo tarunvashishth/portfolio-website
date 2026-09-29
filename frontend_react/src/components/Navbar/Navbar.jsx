@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { HiMenuAlt4, HiX } from 'react-icons/hi';
-import { motion } from 'framer-motion';
+import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
 
 import { SECTIONS } from '../../constants';
 import useActiveSection from '../../hooks/useActiveSection';
@@ -8,7 +8,15 @@ import './Navbar.scss';
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const active = useActiveSection();
+  const { scrollY } = useScroll();
+
+  // slide away while scrolling down, come back the moment you scroll up
+  useMotionValueEvent(scrollY, 'change', (y) => {
+    const delta = y - scrollY.getPrevious();
+    if (Math.abs(delta) > 4) setHidden(delta > 0 && y > 150);
+  });
 
   useEffect(() => {
     if (!toggle) return undefined;
@@ -22,7 +30,13 @@ const Navbar = () => {
   }, [toggle]);
 
   return (
-    <nav className="app__navbar">
+    <motion.nav
+      className="app__navbar"
+      animate={{ y: hidden && !toggle ? '-170%' : '0%' }}
+      transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+      // keyboard users tabbing into a hidden bar get it back
+      onFocus={() => setHidden(false)}
+    >
       <div className="app__navbar-logo">
 {/*         <img src={images.logo} alt="logo" /> */}
       </div>
@@ -61,7 +75,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 

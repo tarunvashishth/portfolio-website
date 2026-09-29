@@ -71,7 +71,8 @@
       color: #000;
   
       cursor: pointer;
-      transition: all 0.3s ease;
+      // only the shadow: transform/opacity are driven by scroll every frame
+      transition: box-shadow 0.3s ease;
   
       &:hover {
         box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
@@ -95,6 +96,10 @@
     height: 230px;
   
     position: relative;
+    // frame for the parallax screenshot
+    overflow: hidden;
+    border-radius: 0.5rem;
+    isolation: isolate;
   
     img {
       width: 100%;

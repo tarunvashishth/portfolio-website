@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { motion, useTransform } from 'framer-motion';
 
 import { images } from '../../constants';
+import { SplitText } from '../../components';
+import { useScrollProgress } from '../../hooks/useScrollFx';
 import { AppWrap, MotionWrap } from '../../wrapper';
 import './Footer.scss';
 
@@ -18,6 +21,20 @@ const validate = ({ username, email, message }) => {
 };
 
 const Footer = () => {
+  const cardsRef = useRef(null);
+  const formRef = useRef(null);
+  // the two contact cards swing in from opposite sides; the form flips up behind them
+  const cardsProgress = useScrollProgress(cardsRef, ['start end', 'start 0.6']);
+  const formProgress = useScrollProgress(formRef, ['start end', 'start 0.55']);
+  const leftX = useTransform(cardsProgress, [0, 1], [-360, 0]);
+  const rightX = useTransform(cardsProgress, [0, 1], [360, 0]);
+  const leftRotate = useTransform(cardsProgress, [0, 1], [-25, 0]);
+  const rightRotate = useTransform(cardsProgress, [0, 1], [25, 0]);
+  const cardsOpacity = useTransform(cardsProgress, [0, 0.5], [0, 1]);
+  const formRotateX = useTransform(formProgress, [0, 1], [-80, 0]);
+  const formScale = useTransform(formProgress, [0, 1], [0.7, 1]);
+  const formOpacity = useTransform(formProgress, [0, 0.5], [0, 1]);
+
   const [formData, setFormData] = useState({ username: '', email: '', message: '' });
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -65,20 +82,34 @@ const Footer = () => {
 
   return (
     <>
-      <h2 className="head-text">Take a coffee & chat with me</h2>
+      <SplitText className="head-text" capitalize>Take a coffee & chat with me</SplitText>
 
-      <div className="app__footer-cards">
-        <a href={`mailto:${EMAIL}`} className="app__footer-card">
+      <div className="app__footer-cards" ref={cardsRef}>
+        <motion.a
+          href={`mailto:${EMAIL}`}
+          className="app__footer-card scroll-fx"
+          style={{ x: leftX, rotate: leftRotate, opacity: cardsOpacity }}
+        >
           <img src={images.email} alt="" />
           <p className="p-text">{EMAIL}</p>
-        </a>
-        <a href="tel:+919673228114" className="app__footer-card">
+        </motion.a>
+        <motion.a
+          href="tel:+919673228114"
+          className="app__footer-card scroll-fx"
+          style={{ x: rightX, rotate: rightRotate, opacity: cardsOpacity }}
+        >
           <img src={images.mobile} alt="" />
           <p className="p-text">+91 9673-228114</p>
-        </a>
+        </motion.a>
       </div>
       {!isFormSubmitted ? (
-        <form className="app__footer-form app__flex" onSubmit={handleSubmit} noValidate>
+        <motion.form
+          ref={formRef}
+          className="app__footer-form app__flex scroll-fx"
+          style={{ rotateX: formRotateX, scale: formScale, opacity: formOpacity, transformPerspective: 1000, originY: 1 }}
+          onSubmit={handleSubmit}
+          noValidate
+        >
           <div className="app__flex">
             <input className="p-text" type="text" placeholder="Your Name" aria-label="Your name" name="username" value={username} onChange={handleChangeInput} autoComplete="name" />
           </div>
@@ -97,7 +128,7 @@ const Footer = () => {
           </div>
           {error && <p className="p-text app__footer-error" role="alert">{error}</p>}
           <button type="submit" className="p-text" disabled={loading}>{!loading ? 'Send Message' : 'Sending...'}</button>
-        </form>
+        </motion.form>
       ) : (
         <div>
           <h3 className="head-text">
