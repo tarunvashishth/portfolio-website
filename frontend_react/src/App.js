@@ -1,7 +1,7 @@
 import React from 'react';
 import { MotionConfig } from 'framer-motion';
 
-import { About, Footer, Header, MsocialMedia, Skills, Testimonial, Warp, Work } from './container';
+import { About, Footer, Header, Skills, Testimonial, Warp, Work } from './container';
 import { Marquee, Navbar, NavigationDots, ScrollProgress, SocialMedia } from './components';
 import './App.scss';
 
@@ -23,7 +23,6 @@ const App = () => (
       {/* <Testimonial /> */}
       <Marquee top="Let's build something ✦ Say hello ✦" bottom="Ideas → Code → Shipped ✦ Ideas → Code → Shipped ✦" />
       <Footer />
-      <MsocialMedia />
     </div>
   </MotionConfig>
 );
