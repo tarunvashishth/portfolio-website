@@ -57,7 +57,7 @@ const Header = () => {
   return (
     <div className="app__header app__flex" ref={ref}>
       <motion.div className="app__header-bgtext scroll-fx" style={{ x: bgX }} aria-hidden="true">
-        Software Engineer — Software Engineer —
+        AI Engineer — AI Engineer —
       </motion.div>
 
       <motion.div
@@ -78,7 +78,8 @@ const Header = () => {
           </div>
 
           <div className="tag-cmp app__flex">
-            <p className="p-text">Software Engineer</p>
+            <p className="p-text">Full Stack AI Engineer</p>
+            <p className="p-text">LLM · RAG · Agents</p>
             {/* <p className="p-text">Freelancer</p> */}
           </div>
 

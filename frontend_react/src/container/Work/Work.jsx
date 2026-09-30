@@ -9,7 +9,7 @@ import { urlFor, client } from '../../client';
 import './Work.scss';
 
 const DEFAULT_FILTER = 'AI App';
-const FILTERS = ['AI App', 'Web App', 'All'];
+const FILTERS = ['AI App', 'Web App', 'Open Source', 'All'];
 
 const byFilter = (works, filter) => (filter === 'All' ? works : works.filter((work) => work.tags?.includes(filter)));
 

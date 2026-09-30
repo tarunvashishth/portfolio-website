@@ -8,6 +8,15 @@ import { seeded, useScrollProgress } from '../../hooks/useScrollFx';
 import { urlFor, client } from '../../client';
 import './Skills.scss';
 
+const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+// "Jun 2025 - Present" -> 2025.42, "2017 - 2021" -> 2017. Sorting on the raw
+// string would put "Aug 2021" above "Apr 2023".
+const startOf = (year = '') => {
+  const [, month = '', yr] = year.match(/(?:([a-z]{3})[a-z]*\s+)?(\d{4})/i) || [];
+  return yr ? Number(yr) + Math.max(MONTHS.indexOf(month.toLowerCase()), 0) / 12 : 0;
+};
+
 // Icons start scattered and spinning all over the place, then snap into the grid.
 const SkillBubble = ({ skill, index, progress }) => {
   const spread = (n) => seeded(index * 7 + n) * 2 - 1;
@@ -82,11 +91,12 @@ const Skills = () => {
   const headTop = useTransform(timeline, (v) => `calc(1rem + ${v} * (100% - 2rem))`);
 
   useEffect(() => {
-    const query = '*[_type == "experiences"] | order(year desc)';
+    const query = '*[_type == "experiences"]';
     const skillsQuery = '*[_type == "skills"]';
 
     client.fetch(query).then((data) => {
-      setExperiences(data);
+      // newest first
+      setExperiences([...data].sort((a, b) => startOf(b.year) - startOf(a.year)));
     });
 
     client.fetch(skillsQuery).then((data) => {
