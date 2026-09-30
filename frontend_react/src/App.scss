@@ -337,10 +337,25 @@
 }
 
 @media screen and (max-width: 500px) {
-  .app__navigation,
-  .app__social
-  {
+  .app__navigation {
     display: none;
+  }
+
+  // keep the links floating on phones, just smaller and tucked into the corner
+  .app__social {
+    padding: 0.75rem;
+
+    a {
+      width: 34px;
+      height: 34px;
+      margin: 0.2rem 0;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+
+      svg {
+        width: 13px;
+        height: 13px;
+      }
+    }
   }
 
   .copyright {
