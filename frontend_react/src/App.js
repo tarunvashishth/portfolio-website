@@ -17,7 +17,7 @@ const App = () => (
       <Header />
       <Warp />
       <About />
-      <Marquee top="AI Apps ✦ Web Apps ✦ Software Engineer ✦" bottom="Scroll faster ✦ Scroll faster ✦ Scroll faster ✦" />
+      <Marquee top="AI Agents ✦ RAG Pipelines ✦ Full Stack AI Engineer ✦" bottom="Scroll faster ✦ Scroll faster ✦ Scroll faster ✦" />
       <Work />
       <Skills />
       {/* <Testimonial /> */}

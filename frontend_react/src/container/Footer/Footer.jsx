@@ -99,7 +99,7 @@ const Footer = () => {
           style={{ x: rightX, rotate: rightRotate, opacity: cardsOpacity }}
         >
           <img src={images.mobile} alt="" />
-          <p className="p-text">+91 9673-228114</p>
+          <p className="p-text">+91 96732 28114</p>
         </motion.a>
       </div>
       {!isFormSubmitted ? (
