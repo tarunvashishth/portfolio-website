@@ -2,6 +2,9 @@
   "name": "frontend_react",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "@sanity/client": "^4.0.1",
     "@sanity/image-url": "^1.0.2",
