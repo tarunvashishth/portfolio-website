@@ -6,6 +6,7 @@ import { AppWrap, MotionWrap } from '../../wrapper';
 import { SplitText } from '../../components';
 import { useScrollProgress } from '../../hooks/useScrollFx';
 import { urlFor, client } from '../../client';
+import Contributions from './Contributions';
 import './Work.scss';
 
 const DEFAULT_FILTER = 'AI App';
@@ -146,6 +147,8 @@ const Work = () => {
           </p>
         )}
       </motion.div>
+
+      <Contributions />
     </>
   );
 };
